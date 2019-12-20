@@ -28,8 +28,11 @@ class Crawler(object):
             content (list): a list of date, title, and content
         """
         res = []
-        dt_date1 = datetime.datetime.strptime(upperdate,'%Y-%m-%d')
-        dt_date2 = datetime.datetime.strptime(lowerdate,'%Y-%m-%d')
+        #dt_date1 = datetime.datetime.strptime(upperdate,'%Y-%m-%d')
+        #dt_date2 = datetime.datetime.strptime(lowerdate,'%Y-%m-%d')
+        # datetime.datetime has already converted in arg.py
+        dt_date1 = upperdate
+        dt_date2 = lowerdate
         for i in range (0,4000,10):
             time.sleep(0.1) # 10 times per sec
             """
@@ -82,7 +85,10 @@ class Crawler(object):
 if __name__ == '__main__':
     cc = Crawler()
     #print(cc.crawl_content('https://www.csie.ntu.edu.tw/app/news.php?Sn=15216'))
-    res = cc.crawl('2019-06-15','2019-05-14')
+    
+    dt_date1 = datetime.datetime.strptime('2019-06-04','%Y-%m-%d')
+    dt_date2 = datetime.datetime.strptime('2019-03-04','%Y-%m-%d')
+    res = cc.crawl(dt_date1,dt_date2)
     for ele in res:
         print(ele)
     #print(res[0][2])
