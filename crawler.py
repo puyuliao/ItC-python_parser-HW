@@ -14,7 +14,7 @@ class Crawler(object):
         self.href_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[2]/a/@href'
         self.dt_last_date = datetime.datetime.strptime(self.last_date,'%Y-%m-%d')    
         self.content_xpath = '//*[@id="content2"]/div[2]//text()'
-    def crawl(self,upperdate, lowerdate): 
+    def crawl(self, lowerdate, upperdate): 
         """upperdate(ex.2019-1-1) > lowerdate(ex.2018-12-23)"""
         """Main crawl API
             1. Note that you need to sleep 0.1 seconds for any request.
