@@ -78,7 +78,7 @@ class Crawler(object):
         #print(content)
         res = ''.join(content)
         #print(type(res)
-        return res.replace('\xa0','').replace('\r',' ').replace('\n','').replace('\"','\"').replace('\'','\'')
+        return res.replace('\xa0','').replace('\r',' ').replace('\n','').replace('\"','\\\"').replace('\'','\\\'')
     #raise NotImplementedError
 if __name__ == '__main__':
     cc = Crawler()
