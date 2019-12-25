@@ -59,9 +59,7 @@ class Crawler(object):
                 if dt_date1 >= dt_date and dt_date >= dt_date2:
                     obj = [date[0],title[0],self.crawl_content(self.base_url+href[0])]
                     res.append(obj)
-                elif dt_date < dt_date2: break
                 if dt_date <= self.dt_last_date: break
-            if dt_date < dt_date2: break
             if dt_date <= self.dt_last_date: break
         return res
     def crawl_content(self, url):
@@ -80,7 +78,7 @@ class Crawler(object):
         #print(content)
         res = ''.join(content)
         #print(type(res)
-        return res.replace('\xa0','').replace('\r',' ').replace('\n','')
+        return res.replace('\xa0','').replace('\r',' ').replace('\n','').replace('\"','\\\"').replace('\'','\\\'')
     #raise NotImplementedError
 if __name__ == '__main__':
     cc = Crawler()
