@@ -8,11 +8,9 @@ class Crawler(object):
     def __init__(self):
         self.req_str = 'https://www.csie.ntu.edu.tw/news/news.php?class=101&no=%d'
         self.base_url = 'https://www.csie.ntu.edu.tw/app/'
-        self.last_date = '2012-07-09' #'2012-07-09' 
         self.date_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[1]/text()'
         self.title_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[2]/a/text()'
         self.href_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[2]/a/@href'
-        self.dt_last_date = datetime.datetime.strptime(self.last_date,'%Y-%m-%d')    
         self.content_xpath = '//*[@id="content2"]/div[2]//text()'
     def crawl(self, lowerdate, upperdate): 
         """upperdate(ex.2019-1-1) > lowerdate(ex.2018-12-23)"""
@@ -55,12 +53,11 @@ class Crawler(object):
                 #          to crawl the content
                 #       3. append the date, title and content to contents (res)
                 """
+                if len(date) == 0: return res
                 dt_date = datetime.datetime.strptime(date[0],'%Y-%m-%d')
                 if dt_date1 >= dt_date and dt_date >= dt_date2:
                     obj = [date[0],title[0],self.crawl_content(self.base_url+href[0])]
                     res.append(obj)
-                if dt_date <= self.dt_last_date: break
-            if dt_date <= self.dt_last_date: break
         return res
     def crawl_content(self, url):
         """Crawl the content of given url
@@ -78,14 +75,14 @@ class Crawler(object):
         #print(content)
         res = ''.join(content)
         #print(type(res)
-        return res.replace('\xa0','').replace('\r',' ').replace('\n','').replace('\"','\\\"').replace('\'','\\\'')
+        return res.replace('\xa0','').replace('\r','').replace('\n',' ').replace('\t',' ').replace('"','""')
     #raise NotImplementedError
 if __name__ == '__main__':
     cc = Crawler()
     #print(cc.crawl_content('https://www.csie.ntu.edu.tw/app/news.php?Sn=15216'))
     
-    dt_date1 = datetime.datetime.strptime('2019-06-04','%Y-%m-%d')
-    dt_date2 = datetime.datetime.strptime('2019-03-04','%Y-%m-%d')
+    dt_date1 = datetime.datetime.strptime('2010-03-04','%Y-%m-%d')
+    dt_date2 = datetime.datetime.strptime('2019-06-04','%Y-%m-%d')
     res = cc.crawl(dt_date1,dt_date2)
     for ele in res:
         print(ele)
