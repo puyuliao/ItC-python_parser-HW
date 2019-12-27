@@ -9,4 +9,4 @@
 <h3> Environment:</h3>
 <p> python=3.6.3 etree.LXML_VERSION=(4,4,2,0) </p>
 <h3> Descriptions:</h3>
-<p>Parse arguments in https://www.csie.ntu.edu.tw/news/news.php?class=101 and find (date,title,content) which date is between start-date and end-date. Then write into .csv file</p>
+<p>Parse arguments in https://www.csie.ntu.edu.tw/news/news.php?class=101 and find (date,title,content) which date is between start-date and end-date. Then write into .csv file.</p>
