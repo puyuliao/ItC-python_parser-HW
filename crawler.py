@@ -12,6 +12,8 @@ class Crawler(object):
         self.title_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[2]/a/text()'
         self.href_xpath = '//*[@id="RSS_Table_page_news_1"]/tbody/tr[%d]/td[2]/a/@href'
         self.content_xpath = '//*[@id="content2"]/div[2]//text()'
+        self.last_date = '2012-01-01'
+        self.dt_last_date = datetime.datetime.strptime(self.last_date,'%Y-%m-%d')
     def crawl(self, lowerdate, upperdate): 
         """upperdate(ex.2019-1-1) > lowerdate(ex.2018-12-23)"""
         """Main crawl API
@@ -31,6 +33,8 @@ class Crawler(object):
         # datetime.datetime has already converted in arg.py
         dt_date1 = upperdate
         dt_date2 = lowerdate
+        if dt_date2 < self.dt_last_date:
+            dt_date2 = self.dt_last_date
         for i in range (0,4000,10):
             time.sleep(0.1) # 10 times per sec
             """
@@ -55,6 +59,7 @@ class Crawler(object):
                 """
                 if len(date) == 0: return res
                 dt_date = datetime.datetime.strptime(date[0],'%Y-%m-%d')
+                if dt_date < dt_date2: return res
                 if dt_date1 >= dt_date and dt_date >= dt_date2:
                     obj = [date[0],title[0],self.crawl_content(self.base_url+href[0])]
                     res.append(obj)
@@ -78,11 +83,12 @@ class Crawler(object):
         return res.replace('\xa0','').replace('\r','').replace('\n',' ').replace('\t',' ').replace('"','""')
     #raise NotImplementedError
 if __name__ == '__main__':
+    print(etree.LXML_VERSION)
     cc = Crawler()
     #print(cc.crawl_content('https://www.csie.ntu.edu.tw/app/news.php?Sn=15216'))
     
-    dt_date1 = datetime.datetime.strptime('2010-03-04','%Y-%m-%d')
-    dt_date2 = datetime.datetime.strptime('2019-06-04','%Y-%m-%d')
+    dt_date1 = datetime.datetime.strptime('2019-06-04','%Y-%m-%d')
+    dt_date2 = datetime.datetime.strptime('2019-09-04','%Y-%m-%d')
     res = cc.crawl(dt_date1,dt_date2)
     for ele in res:
         print(ele)
